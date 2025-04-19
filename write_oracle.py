@@ -46,11 +46,11 @@ Output raw JSON only, like this:
                 "threshold": "BLOCK_NONE"
             },
             {
-                "category": "SEXUALLY_EXPLICIT",
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
                 "threshold": "BLOCK_NONE"
             },
             {
-                "category": "DANGEROUS_CONTENT",
+                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
                 "threshold": "BLOCK_NONE"
             },
         ]
