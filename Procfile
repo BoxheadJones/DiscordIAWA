@@ -1,0 +1,1 @@
+worker: python IAWA_bot.py
