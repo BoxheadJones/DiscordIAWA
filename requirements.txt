@@ -1,1 +1,3 @@
 discord.py
+google-generativeai
+google-cloud-storage
