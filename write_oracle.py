@@ -46,11 +46,11 @@ Output raw JSON only, like this:
                 "threshold": "BLOCK_NONE"
             },
             {
-                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "category": "SEXUALLY_EXPLICIT",
                 "threshold": "BLOCK_NONE"
             },
             {
-                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                "category": "DANGEROUS_CONTENT",
                 "threshold": "BLOCK_NONE"
             },
         ]
@@ -71,16 +71,20 @@ Output raw JSON only, like this:
         bucket = storage_client.bucket(BUCKET_NAME)
         blob = bucket.blob(ORACLE_GCS_PATH)
         blob.upload_from_string(json.dumps(oracle_json, indent=2))
-        print(f"Oracle data uploaded to gs://{BUCKET_NAME}/{ORACLE_GCS_PATH}")
+        gcs_url = f"gs://{BUCKET_NAME}/{ORACLE_GCS_PATH}"  # Construct the GCS URL
+        print(f"Oracle data uploaded to {gcs_url}")
+        return gcs_url # Return the URL
     except Exception as e:
         print(f"Error uploading to GCS: {e}")
-        return None
+        return None  # Indicate failure
 
-    return oracle_json
+def generate_gcs_link(bucket_name, blob_name):
+    """Generates a GCS link."""
+    return f"gs://{bucket_name}/{blob_name}"
 
 if __name__ == "__main__":
-    oracle_data = generate_oracle()
-    if oracle_data:
-        print("Oracle data generated and uploaded successfully.")
+    gcs_link = generate_oracle() # Capture the returned URL
+    if gcs_link:
+        print(f"Oracle data generated and uploaded successfully.  GCS Link: {gcs_link}")
     else:
         print("Oracle generation or upload failed.")
