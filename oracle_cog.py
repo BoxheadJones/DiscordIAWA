@@ -1,12 +1,19 @@
 import os
+import dotenv
 import json
 import random
 import openai
 from discord.ext import commands
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Full path to your .env file
+env_path = r"C:\AIRPG\.env"
+
+# Load the .env file
+load_dotenv(dotenv_path=env_path)
 
 # --- Configure OpenAI API ---
-os.environ["OPENAI_API_KEY"] = ""
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 if not openai.api_key:
     print("Warning: OPENAI_API_KEY environment variable not set. The bot might not function correctly.")
@@ -167,20 +174,20 @@ Respond in this exact structure as raw JSON:
         print(f"Raw OpenAI Response:\n{raw_response_content}")  # Print the raw response
 
         # 1.5. Remove leading/trailing triple quotes and 'json' label
-       # raw_response_content = raw_response_content.strip()  # Remove leading/trailing whitespace
+        # raw_response_content = raw_response_content.strip()  # Remove leading/trailing whitespace
         #raw_response_content = raw_response_content[7:]  # Remove leading "'''json"
         #raw_response_content = raw_response_content[:-3]  # Remove trailing "'''"
         #raw_response_content = raw_response_content.strip()  # Remove any extra whitespace
 
-         # Clean markdown
-        
-
+        # Clean markdown
+        if raw_response_content.startswith("```json"):
+           raw_response_content = raw_response_content.replace("```json", "").replace("```", "").strip()
 
         # Parse the JSON response
         try:
             json_response = json.loads(raw_response_content)
-            if json_response.startswith("```json"):
-                json_response = json_response.replace("```json", "").replace("```", "").strip()
+            
+              # Print the raw response
             
             elements = json_response.get("elements", [])
             characters = json_response.get("characters", [])
